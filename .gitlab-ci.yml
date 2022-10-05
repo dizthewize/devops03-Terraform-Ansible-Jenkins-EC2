@@ -45,18 +45,8 @@ terraform_plan:
     paths:
       - ${TF_ROOT}/terraform.tfplan
 
-terraform_apply:
-  stage: iac_apply_destroy
-  script:
-    - terraform apply --auto-approve "terraform.tfplan"
-  when: manual
-  allow_failure: false
-  only:
-    refs:
-      - main
-
 terraform_plan_destroy:
-  stage: iac_apply_destroy
+  stage: iac_plan
   script:
     - terraform plan -destroy -out "terraform-destroy.tfplan"
   when: manual
@@ -67,6 +57,16 @@ terraform_plan_destroy:
     name: plan
     paths:
       - ${TF_ROOT}/terraform-destroy.tfplan
+
+terraform_apply:
+  stage: iac_apply_destroy
+  script:
+    - terraform apply --auto-approve "terraform.tfplan"
+  when: manual
+  allow_failure: false
+  only:
+    refs:
+      - main
 
 terraform_destroy:
   stage: iac_apply_destroy
