@@ -55,19 +55,20 @@
         name: awsuser
         groups: "{{user_groups}}"
 
-- name: Start Jenkins containers
+- name: Start Docker container
   hosts: aws_ec2
   become: yes
   become_user: awsuser
   tasks:
-    - name: Create a Jenkins container
-      docker_container:
-        name: jenkins-lts-jdk8
-        image: dizthewize/jenkins-lts-jdk8
-        state: present
-        volumes:
-          - jenkins_data:/var/jenkins_home
-          - /var/run/docker.sock:/var/run/docker.sock
+    - name: Pull Docker image
+      docker_image:
+        name: dizthewize/express-api
+        source: pull
+    - name: Create a data container
+      community.docker.docker_container:
+        name: express-api
+        image: dizthewize/express-api
         ports:
-          - "8080:8080"
-          - "50000:50000"
+          # Publish container port 9000 as host port 8080
+          - "80:4000"
+

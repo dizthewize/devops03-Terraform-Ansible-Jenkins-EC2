@@ -1,5 +1,5 @@
 version: 1.0.0
 location: /Users/martezconner/Desktop/projects/devops/devops03-Terraform-Ansible-GitlabCi-EC2/ansible
-name: jenkins
+name: basic_user
 user_home_dir: /home/{{name}}
 user_groups: adm,docker
