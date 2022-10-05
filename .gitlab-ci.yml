@@ -5,9 +5,6 @@ include:
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/${TF_ENV_PATH}  # The relative path to the root directory of the Terraform project
 
-before_script:
-  - cd ${TF_ROOT}
-
 stages:
   - iac_validate
   - iac_plan
@@ -20,6 +17,7 @@ default:
       - /usr/bin/env
       - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   before_script:
+    - cd ${TF_ROOT}
     - terraform init
   cache:
     key: terraform
@@ -28,6 +26,8 @@ default:
 
 terraform_validate:
   stage: iac_validate
+  before_script:
+    - cd ${TF_ROOT}
   script:
     - terraform validate
   except:
@@ -36,6 +36,8 @@ terraform_validate:
 
 terraform_plan:
   stage: iac_plan
+  before_script:
+    - cd ${TF_ROOT}
   script:
     - terraform plan --out plan
   only:
@@ -47,6 +49,8 @@ terraform_plan:
 
 terraform_apply:
   stage: iac_apply
+  before_script:
+    - cd ${TF_ROOT}
   script:
     - terraform apply --auto-approve plan
   when: manual
