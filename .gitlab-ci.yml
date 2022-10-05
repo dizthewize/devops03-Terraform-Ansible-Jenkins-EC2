@@ -4,6 +4,7 @@ include:
 
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/${TF_ENV_PATH}  # The relative path to the root directory of the Terraform project
+  TF_VAR_ansible_dir: ${CI_PROJECT_DIR}/ansible
 
 stages:
   - iac_validate

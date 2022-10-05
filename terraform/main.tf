@@ -33,7 +33,7 @@ resource "null_resource" "configure_server" {
   }
 
   provisioner "local-exec" {
-    working_dir = "/Users/martezconner/Desktop/projects/devops/devops03-Terraform-Ansible-GitlabCi-EC2/ansible"
+    working_dir = var.ansible_dir
     command = "ansible-playbook -i inventory_aws_ec2.yaml deploy-docker-newuser.yaml"
   }
 }

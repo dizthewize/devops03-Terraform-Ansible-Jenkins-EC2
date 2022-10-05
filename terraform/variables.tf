@@ -24,4 +24,7 @@ variable my_ip {
 variable image_name {
   default = "amzn2-ami-kernel-5.10-hvm-*-x86_64-gp2"
 }
+variable ansible_dir {
+  default = "/Users/martezconner/Desktop/projects/devops/devops03-Terraform-Ansible-GitlabCi-EC2/ansible"
+}
 variable ssh_key {}
