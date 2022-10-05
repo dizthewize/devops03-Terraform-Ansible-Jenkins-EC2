@@ -26,8 +26,6 @@ default:
 
 terraform_validate:
   stage: iac_validate
-  before_script:
-    - cd ${TF_ROOT}
   script:
     - terraform validate
   except:
@@ -36,8 +34,6 @@ terraform_validate:
 
 terraform_plan:
   stage: iac_plan
-  before_script:
-    - cd ${TF_ROOT}
   script:
     - terraform plan --out plan
   only:
@@ -49,8 +45,6 @@ terraform_plan:
 
 terraform_apply:
   stage: iac_apply
-  before_script:
-    - cd ${TF_ROOT}
   script:
     - terraform apply --auto-approve plan
   when: manual
