@@ -24,4 +24,7 @@ variable my_ip {
 variable image_name {
   default = "amzn2-ami-kernel-5.10-hvm-*-x86_64-gp2"
 }
+variable profile {
+  default = "default"
+}
 variable ssh_key {}
