@@ -5,6 +5,7 @@ include:
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/${TF_ENV_PATH}  # The relative path to the root directory of the Terraform project
   TF_VAR_ansible_dir: ${CI_PROJECT_DIR}/ansible
+  TF_VAR_private_key_location: ~/.ssh/ec2.pem
 
 stages:
   - iac_validate
@@ -63,8 +64,6 @@ terraform_plan_destroy:
 
 terraform_apply:
   stage: iac_apply_destroy
-  variables:
-    TF_VAR_private_key_location: ~/.ssh/ec2.pem
   script:
     - terraform apply --auto-approve "terraform.tfplan"
   when: manual
