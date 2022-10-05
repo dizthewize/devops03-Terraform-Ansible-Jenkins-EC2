@@ -54,3 +54,13 @@ terraform_apply:
   only:
     refs:
       - main
+
+terraform_destroy:
+  stage: iac_apply
+  script:
+    - terraform destroy --auto-approve "terraform.tfplan"
+  when: manual
+  allow_failure: false
+  only:
+    refs:
+      - main
