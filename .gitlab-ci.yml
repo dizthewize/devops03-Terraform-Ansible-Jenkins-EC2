@@ -10,6 +10,7 @@ stages:
   - iac_validate
   - iac_plan
   - iac_apply
+  - iac_destroy
 
 default:
   image:
@@ -56,7 +57,7 @@ terraform_apply:
       - main
 
 terraform_destroy:
-  stage: iac_apply
+  stage: iac_destroy
   script:
     - terraform destroy --auto-approve "terraform.tfplan"
   when: manual
