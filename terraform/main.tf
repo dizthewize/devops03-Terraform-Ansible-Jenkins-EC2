@@ -34,6 +34,6 @@ resource "null_resource" "configure_server" {
 
   provisioner "local-exec" {
     working_dir = var.ansible_dir
-    command = "ansible-playbook -i inventory_aws_ec2.yaml deploy-docker-newuser.yaml"
+    command = "ansible-playbook --private-key=${var.private_key_location} -i inventory_aws_ec2.yaml deploy-docker-newuser.yaml"
   }
 }

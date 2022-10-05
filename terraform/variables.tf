@@ -27,4 +27,7 @@ variable image_name {
 variable ansible_dir {
   default = "/Users/martezconner/Desktop/projects/devops/devops03-Terraform-Ansible-GitlabCi-EC2/ansible"
 }
+variable private_key_location {
+  default = "~/.ssh/id_rsa"
+}
 variable ssh_key {}

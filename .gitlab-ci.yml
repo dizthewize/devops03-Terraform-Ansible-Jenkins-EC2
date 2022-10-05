@@ -18,6 +18,9 @@ default:
       - /usr/bin/env
       - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   before_script:
+    - mkdir ~/.ssh
+    - cat $PRIVATE_KEY > ~/.ssh/ec2.pem
+    - chmod 400 ~/.ssh/ec2.pem
     - cd ${TF_ROOT}
     - terraform init
   cache:
@@ -60,6 +63,8 @@ terraform_plan_destroy:
 
 terraform_apply:
   stage: iac_apply_destroy
+  variables:
+    TF_VAR_private_key_location: ~/.ssh/ec2.pem
   script:
     - terraform apply --auto-approve "terraform.tfplan"
   when: manual
