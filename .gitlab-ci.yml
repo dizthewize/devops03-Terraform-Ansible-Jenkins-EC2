@@ -55,10 +55,23 @@ terraform_apply:
     refs:
       - main
 
+terraform_plan_destroy:
+  stage: iac_apply_destroy
+  script:
+    - terraform plan -destroy -out "terraform-destroy.tfplan"
+  when: manual
+  only:
+    refs:
+      - main
+  artifacts:
+    name: plan
+    paths:
+      - ${TF_ROOT}/terraform-destroy.tfplan
+
 terraform_destroy:
   stage: iac_apply_destroy
   script:
-    - terraform destroy --auto-approve "terraform.tfplan"
+    - terraform destroy --auto-approve "terraform-destroy.tfplan"
   when: manual
   only:
     refs:
