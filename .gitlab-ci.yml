@@ -35,18 +35,19 @@ terraform_validate:
 terraform_plan:
   stage: iac_plan
   script:
-    - terraform plan --out plan
+    - terraform plan --out "terraform.tfplan"
   only:
     refs:
       - main
   artifacts:
+    name: plan
     paths:
-      - plan
+      - terraform.tfplan
 
 terraform_apply:
   stage: iac_apply
   script:
-    - terraform apply --auto-approve plan
+    - terraform apply --auto-approve -input=false "terraform.tfplan"
   when: manual
   allow_failure: false
   only:
