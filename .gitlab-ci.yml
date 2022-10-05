@@ -42,7 +42,7 @@ terraform_plan:
   artifacts:
     name: plan
     paths:
-      - terraform.tfplan
+      - ${TF_ROOT}/terraform.tfplan
 
 terraform_apply:
   stage: iac_apply
