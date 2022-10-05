@@ -1,6 +1,6 @@
 ---
 - name: Wait for ssh connection
-  hosts: aws_ec2
+  hosts: all
   gather_facts: False
   tasks:
     - name: Ensure ssh port open
