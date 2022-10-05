@@ -5,7 +5,7 @@ include:
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/${TF_ENV_PATH}  # The relative path to the root directory of the Terraform project
   TF_VAR_ansible_dir: ${CI_PROJECT_DIR}/ansible
-  TF_VAR_private_key_location: ~/.ssh/ec2.pem
+  TF_VAR_private_key_location: ~/.ssh/ec2.pub
 
 stages:
   - iac_validate
@@ -20,8 +20,8 @@ default:
       - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   before_script:
     - mkdir ~/.ssh
-    - cat $PRIVATE_KEY > ~/.ssh/ec2.pem
-    - chmod 400 ~/.ssh/ec2.pem
+    - cat $PRIVATE_KEY > ~/.ssh/ec2.pub
+    - chmod 400 ~/.ssh/ec2.pub
     - cd ${TF_ROOT}
     - terraform init
   cache:
