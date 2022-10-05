@@ -47,7 +47,7 @@ terraform_plan:
 terraform_apply:
   stage: iac_apply
   script:
-    - terraform apply --auto-approve -input=false "terraform.tfplan"
+    - terraform apply --auto-approve -input=false -state="terraform.tfplan"
   when: manual
   allow_failure: false
   only:
