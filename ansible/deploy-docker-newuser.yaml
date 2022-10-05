@@ -1,6 +1,6 @@
 ---
 - name: Wait for ssh connection
-  hosts: all
+  hosts: aws_ec2
   gather_facts: False
   tasks:
     - name: Ensure ssh port open
@@ -15,7 +15,7 @@
 
 
 - name: Install python3, docker, docker-compose
-  hosts: all
+  hosts: aws_ec2
   become: yes
   gather_facts: False
   tasks:
@@ -45,7 +45,7 @@
 
 
 - name: Create new linux user
-  hosts: all
+  hosts: aws_ec2
   become: yes
   vars_files:
     - project-vars
@@ -53,10 +53,10 @@
     - name: Create new linux user
       user:
         name: awsuser
-        groups: adm, docker
+        groups: "{{user_groups}}"
 
 - name: Start Docker container
-  hosts: all
+  hosts: aws_ec2
   become: yes
   become_user: awsuser
   tasks:
