@@ -61,7 +61,6 @@ terraform_destroy:
   script:
     - terraform destroy --auto-approve "terraform.tfplan"
   when: manual
-  allow_failure: false
   only:
     refs:
       - main
