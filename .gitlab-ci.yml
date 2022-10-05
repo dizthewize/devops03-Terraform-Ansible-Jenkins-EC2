@@ -1,0 +1,56 @@
+---
+include:
+  - local: /jobs/terraform-prepare.yml
+
+variables:
+  TF_ROOT: ${CI_PROJECT_DIR}/${TF_ENV_PATH}  # The relative path to the root directory of the Terraform project
+
+before_script:
+  - cd ${TF_ROOT}
+
+stages:
+  - iac_validate
+  - iac_plan
+  - iac_apply
+
+default:
+  image:
+    name: hashicorp/terraform:latest
+    entrypoint:
+      - /usr/bin/env
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  before_script:
+    - terraform init
+  cache:
+    key: terraform
+    paths:
+      - .terraform
+
+terraform_validate:
+  stage: iac_validate
+  script:
+    - terraform validate
+  except:
+    refs:
+      - main
+
+terraform_plan:
+  stage: iac_plan
+  script:
+    - terraform plan --out plan
+  only:
+    refs:
+      - main
+  artifacts:
+    paths:
+      - plan
+
+terraform_apply:
+  stage: iac_apply
+  script:
+    - terraform apply --auto-approve plan
+  when: manual
+  allow_failure: false
+  only:
+    refs:
+      - main

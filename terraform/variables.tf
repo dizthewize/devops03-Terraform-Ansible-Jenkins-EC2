@@ -21,6 +21,7 @@ variable instance_type {
 variable my_ip {
   default = "76.20.91.148/32"
 }
+variable image_name {
+  default = "amzn2-ami-kernel-5.10-hvm-*-x86_64-gp2"
+}
 variable ssh_key {}
-variable image_name {}
-variable bucket_name {}
