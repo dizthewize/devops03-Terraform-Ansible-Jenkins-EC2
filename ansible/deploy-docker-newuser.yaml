@@ -1,0 +1,73 @@
+---
+- name: Wait for ssh connection
+  hosts: aws_ec2
+  gather_facts: False
+  tasks:
+    - name: Ensure ssh port open
+      ansible.builtin.wait_for:
+        port: 22
+        delay: 10
+        timeout: 100
+        search_regex: OpenSSH
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      vars:
+        ansible_connection: local
+
+
+- name: Install python3, docker, docker-compose
+  hosts: aws_ec2
+  become: yes
+  gather_facts: False
+  tasks:
+    - name: Ensure python3 and docker are installed
+      vars:
+        ansible_python_interpreter: /usr/bin/python #Uses python2 before the python3 update
+      yum: #yum module does not work with python3 so have to use python2
+        name:
+          - python3
+          - docker
+        update_cache: yes
+        state: present
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-Linux-{{lookup('pipe', 'uname -m')}}
+        dest: /usr/local/bin/docker-compose
+        mode: +x
+    - name: Start docker daemon
+      systemd:
+        name: docker
+        state: started
+    - name: Install docker python module #For ec2 to work with ansible docker_image collection
+      pip:
+        name:
+          - docker
+          - docker-compose
+
+
+- name: Create new linux user
+  hosts: aws_ec2
+  become: yes
+  vars_files:
+    - project-vars
+  tasks:
+    - name: Create new linux user
+      user:
+        name: awsuser
+        groups: "{{user_groups}}"
+
+- name: Start Jenkins containers
+  hosts: aws_ec2
+  become: yes
+  become_user: awsuser
+  tasks:
+    - name: Create a Jenkins container
+      docker_container:
+        name: jenkins-lts-jdk8
+        image: dizthewize/jenkins-lts-jdk8
+        state: present
+        volumes:
+          - jenkins_data:/var/jenkins_home
+          - /var/run/docker.sock:/var/run/docker.sock
+        ports:
+          - "8080:8080"
+          - "50000:50000"
