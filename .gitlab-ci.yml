@@ -14,7 +14,7 @@ stages:
 
 default:
   image:
-    name: alpine/gitlab-ansible-terraform
+    name: alpine/gitlab-ansible-terraform:1.1.9
     entrypoint:
       - /usr/bin/env
       - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
