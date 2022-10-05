@@ -14,7 +14,7 @@ stages:
 
 default:
   image:
-    name: hashicorp/terraform:latest
+    name: alpine/gitlab-ansible-terraform
     entrypoint:
       - /usr/bin/env
       - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
