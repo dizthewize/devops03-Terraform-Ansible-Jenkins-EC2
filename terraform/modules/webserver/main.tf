@@ -48,12 +48,6 @@ data "aws_ami" "lastest-amazon-linux-image" {
   }
 }
 
-resource "aws_key_pair" "ssh-key" {
-  key_name = "server-key"
-  /* Use `$pwd` command to get full path && add ssh id_rsa public key */
-  public_key = file(var.ssh_key)
-}
-
 resource "aws_instance" "myapp-server" {
   ami = data.aws_ami.lastest-amazon-linux-image.id
   instance_type = var.instance_type
@@ -63,9 +57,12 @@ resource "aws_instance" "myapp-server" {
   availability_zone = var.avail_zone
 
   associate_public_ip_address = true
-  key_name = "server-key"
+
+  # use existing key pair
+  key_name = "jenkins-server"
 
   tags = {
-    Name = "${var.env_prefix}-server"
+    Name = "ec2-${var.env_prefix}-server"
+    Environment = "${var.env_prefix}"
   }
 }
