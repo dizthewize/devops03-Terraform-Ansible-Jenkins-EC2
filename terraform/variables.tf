@@ -11,7 +11,7 @@ variable avail_zone {
   default = "us-west-1a"
 }
 variable env_prefix {
-  default = "t2.micro"
+  default = "dev"
 }
 
 variable instance_type {
@@ -23,9 +23,6 @@ variable my_ip {
 }
 variable image_name {
   default = "amzn2-ami-kernel-5.10-hvm-*-x86_64-gp2"
-}
-variable ansible_dir {
-  default = "/Users/martezconner/Desktop/projects/devops/devops03-Terraform-Ansible-GitlabCi-EC2/ansible"
 }
 variable private_key_location {
   default = "~/.ssh/id_rsa"
