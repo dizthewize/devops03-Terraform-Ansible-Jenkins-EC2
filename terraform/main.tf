@@ -22,7 +22,6 @@ module "myapp-webserver" {
   my_ip = var.my_ip
   avail_zone = var.avail_zone
   env_prefix = var.env_prefix
-  ssh_key = var.ssh_key
   instance_type = var.instance_type
   image_name = var.image_name
 }
