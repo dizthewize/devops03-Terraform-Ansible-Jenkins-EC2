@@ -27,4 +27,3 @@ variable image_name {
 variable private_key_location {
   default = "~/.ssh/id_rsa"
 }
-variable ssh_key {}
