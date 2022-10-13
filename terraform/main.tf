@@ -26,14 +26,3 @@ module "myapp-webserver" {
   instance_type = var.instance_type
   image_name = var.image_name
 }
-
-resource "null_resource" "configure_server" {
-  triggers = {
-    trigger = module.myapp-webserver.myapp-server.public_ip
-  }
-
-  provisioner "local-exec" {
-    working_dir = var.ansible_dir
-    command = "ansible-playbook -i inventory_aws_ec2.yaml deploy-docker-newuser.yaml"
-  }
-}
