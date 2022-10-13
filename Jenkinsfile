@@ -98,7 +98,7 @@ pipeline {
 
       stage('Run Ansible') {
         steps {
-          ansiblePlaybook(credentialsId: 'ec2.ssh.key	', inventory: 'aws_hosts', playbook: 'ansible/deploy-docker-newuser.yaml')
+          ansiblePlaybook(credentialsId: 'ec2.ssh.key	', inventory: 'terraform/aws_hosts', playbook: 'ansible/deploy-docker-newuser.yaml')
         }
       }
 
