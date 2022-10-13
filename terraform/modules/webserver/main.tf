@@ -48,6 +48,13 @@ data "aws_ami" "lastest-amazon-linux-image" {
   }
 }
 
+data "aws_key_pair" "jenkins-server" {
+  key_name           = "jenkins-server"
+  include_public_key = true
+}
+
+
+
 resource "aws_instance" "myapp-server" {
   ami = data.aws_ami.lastest-amazon-linux-image.id
   instance_type = var.instance_type
@@ -59,7 +66,7 @@ resource "aws_instance" "myapp-server" {
   associate_public_ip_address = true
 
   # use existing key pair
-  key_name = "jenkins-server"
+  key_name = data.aws_key_pair.jenkins-server.key_name
 
   tags = {
     Name = "ec2-${var.env_prefix}-server"
