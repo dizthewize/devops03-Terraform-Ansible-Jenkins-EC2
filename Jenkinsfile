@@ -39,18 +39,6 @@ pipeline {
         }
       }
 
-      stage('Destroy TF') {
-        steps {
-          script {
-              dir('terraform') {
-                sh '''
-                  terraform destroy -auto-approve
-                '''
-              }
-          }
-        }
-      }
-
       stage('Validate TF') {
         input {
           message "Do you want to apply this Plan?"
@@ -124,7 +112,17 @@ pipeline {
         }
       }
 
-
+      stage('Destroy TF') {
+        steps {
+          script {
+              dir('terraform') {
+                sh '''
+                  terraform destroy -auto-approve
+                '''
+              }
+          }
+        }
+      }
 
   }
 }
