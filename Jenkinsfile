@@ -63,10 +63,14 @@ pipeline {
 
       stage('Print Inventory') {
         steps {
-          sh '''
-            echo $(terraform output -json ec2_public_ip) | awk -F'"' '{print $2}' > aws_hosts
-            cat aws_hosts
-          '''
+          script {
+           dir('terraform') {
+              sh '''
+                echo $(terraform output -json ec2_public_ip) | awk -F'"' '{print $2}' > aws_hosts
+                cat aws_hosts
+              '''
+            }
+          }
         }
       }
 
