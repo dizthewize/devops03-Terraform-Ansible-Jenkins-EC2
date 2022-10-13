@@ -39,6 +39,18 @@ pipeline {
         }
       }
 
+      stage('Destroy TF') {
+        steps {
+          script {
+              dir('terraform') {
+                sh '''
+                  terraform destroy -auto-approve
+                '''
+              }
+          }
+        }
+      }
+
       stage('Validate TF') {
         input {
           message "Do you want to apply this Plan?"
@@ -76,9 +88,13 @@ pipeline {
 
       stage('Wait EC2') {
         steps {
-          sh '''
-            aws ec2 wait instance-status-ok --region us-west-1 --instance-ids `$(terraform output -json ec2_id) | awk -F'"' '{print $2}'`
-          '''
+          script {
+           dir('terraform') {
+            sh '''
+              aws ec2 wait instance-status-ok --region us-west-1 --instance-ids `$(terraform output -json ec2_id) | awk -F'"' '{print $2}'`
+            '''
+            }
+          }
         }
       }
 
@@ -108,17 +124,7 @@ pipeline {
         }
       }
 
-      stage('Destroy TF') {
-        steps {
-          script {
-              dir('terraform') {
-                sh '''
-                  terraform destroy -auto-approve
-                '''
-              }
-          }
-        }
-      }
+
 
   }
 }
